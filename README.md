@@ -12,12 +12,11 @@ To run the project:
 
 
 ```mermaid
-    zenuml
-        title pipeline
-        @CloudStorage raw
-        @CloudStorage silver
-        @CloudStorage gold
-        raw->silver: dbt model
-        silver->gold: dbt model
-
+zenuml
+    title pipeline
+    @CloudStorage raw
+    @CloudStorage silver
+    @CloudStorage gold
+    raw->silver: dbt model
+    silver->gold: dbt model
 ```
