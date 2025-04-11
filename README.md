@@ -25,4 +25,5 @@ sequenceDiagram
   John ->> Bob: model:gold_gh_archives_daily.sql <br>read:parquet, <br>aggregate data, <br>write:parquet
   loop Processing
     Bob ->> Bob: materialized='external' <br> partition by year,month,week
+  end  
 ```
