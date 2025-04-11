@@ -2,10 +2,9 @@
 {{
     config(
         materialized='external',
-        location="data/gh_archives/gold",
+        location="gs://gh_archives/gold",
         options={
-            "partition_by": "created_year, created_month, created_week",
-            "overwrite": True
+            "partition_by": "created_year, created_month, created_week"
         }
     )
 }}
