@@ -12,9 +12,9 @@ To run the project:
 
 ```mermaid
 sequenceDiagram
-  participant Alice as raw(gcs)
-  participant John as silver(gcs)
-  participant Bob as gold(gcs)
+  participant Alice as raw bucket<br>(gcs)
+  participant John as silver bucket<br>(gcs)
+  participant Bob as gold bucket<br>(gcs)
 
   autonumber
   Alice ->> John: model:silver_gh_archives_daily.sql <br>read:json, <br>convert to parquet
@@ -23,4 +23,6 @@ sequenceDiagram
   end
   Note right of John: Rational thoughts!
   John ->> Bob: model:gold_gh_archives_daily.sql <br>read:parquet, <br>aggregate data, <br>write:parquet
+  loop Processing
+    Bob ->> Bob: materialized='external' <br> partition by year,month,week
 ```
