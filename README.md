@@ -2,13 +2,17 @@ This is the place for me to experiment with modern data stack.
 Currently I have used DBT to ingest and process files using medallion architecture with DuckDB as the compute layer.
 
 ### Using the starter project
-To run the project:
-- dbt run
-- dbt test
+To run the project: dbt run, dbt test
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Learn more about DuckDB (https://www.pracdata.io/p/duckdb-beyond-the-hype)
+
+## What is DuckDB
+- An Embeddable & Portable Database
+- A Columnar OLAP Database
+- Interoperable SQL-Powered DataFrame
+- A Federated Query Engine
+- A Single-Node Compute Engine
 
 ```mermaid
 sequenceDiagram
@@ -17,13 +21,13 @@ sequenceDiagram
   participant Bob as gold bucket<br>(gcs)
 
   autonumber
-  Alice ->> John: model:silver_gh_archives_daily.sql <br>read:json, <br>convert to parquet
+  Alice ->> John: read:json, <br>convert to parquet
   loop Processing
-    John ->> John: materialized='external' <br> partition by year,month,week
+    John ->> John: dbt model:silver_gh_archives_daily.sql <br> materialized='external' <br> partition by year,month,week
   end
   Note right of John: Rational thoughts!
-  John ->> Bob: model:gold_gh_archives_daily.sql <br>read:parquet, <br>aggregate data, <br>write:parquet
+  John ->> Bob: read:parquet, <br>aggregate data, <br>write:parquet
   loop Processing
-    Bob ->> Bob: materialized='external' <br> partition by year,month,week
+    Bob ->> Bob: dbt model:gold_gh_archives_daily.sql <br>materialized='external' <br> partition by year,month,week
   end  
 ```
