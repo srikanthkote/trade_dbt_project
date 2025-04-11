@@ -12,14 +12,12 @@ To run the project:
 
 ```mermaid
 sequenceDiagram
-    participant Alice
-    participant Bob
-    Alice->>John: Hello John, how are you?
-    loop HealthCheck
-        John->>John: Fight against hypochondria
+    participant raw(gcs)
+    participant silver(gcs)
+    participant gold(gcs)
+    raw(gcs)->>silver(gcs): read json, convert to parquet
+    loop Processing
+        silver(gcs)->>silver(gcs): partition by year,month,week
     end
-    Note right of John: Rational thoughts<br/>prevail...
-    John-->>Alice: Great!
-    John->>Bob: How about you?
-    Bob-->>John: Jolly good!
+    silver(gcs)->>gold(gcs): read parquet, aggregate data, write parquet
 ```
