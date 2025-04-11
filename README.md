@@ -17,10 +17,10 @@ sequenceDiagram
   participant Bob as gold(gcs)
 
   autonumber
-  Alice ->> John: read:json, <br>convert to parquet
+  Alice ->> John: model:silver_gh_archives_daily.sql <br>read:json, <br>convert to parquet
   loop Processing
     John ->> John: materialized='external' <br> partition by year,month,week
   end
   Note right of John: Rational thoughts!
-  John ->> Bob: read:parquet, <br>aggregate data, <br>write:parquet
+  John ->> Bob: model:gold_gh_archives_daily.sql <br>read:parquet, <br>aggregate data, <br>write:parquet
 ```
