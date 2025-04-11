@@ -12,12 +12,15 @@ To run the project:
 
 ```mermaid
 sequenceDiagram
-    participant raw(gcs)
-    participant silver(gcs)
-    participant gold(gcs)
-    raw(gcs)->>silver(gcs): read json, convert to parquet
-    loop Processing
-        silver(gcs)->>silver(gcs): partition by year,month,week
-    end
-    silver(gcs)->>gold(gcs): read parquet, aggregate data, write parquet
+  participant Alice as raw(gcs)
+  participant John as silver(gcs)
+  participant Bob as gold(gcs)
+
+  autonumber
+  Alice ->> John: read:json, <br>convert to parquet
+  loop Processing
+    John ->> John: materialized='external' <br> partition by year,month,week
+  end
+  Note right of John: Rational thoughts!
+  John ->> Bob: read:parquet, <br>aggregate data, <br>write:parquet
 ```
