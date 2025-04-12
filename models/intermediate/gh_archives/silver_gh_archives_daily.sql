@@ -3,7 +3,7 @@
         materialized='external',
         location="gs://gh_archives/silver",
         options={
-            "partition_by": "created_year, created_month, created_week"
+            "partition_by": "created_year, created_month, created_day"
         }
     )
 }}
@@ -47,6 +47,6 @@ WITH bronze_data AS (
 SELECT 
     year(created_at) AS created_year,
     month(created_at) AS created_month,
-    week(created_at) AS created_week,
+    day(created_at) AS created_day,
     * 
     from bronze_data

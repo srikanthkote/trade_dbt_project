@@ -4,7 +4,7 @@
         materialized='external',
         location="gs://gh_archives/gold",
         options={
-            "partition_by": "created_year, created_month, created_week"
+            "partition_by": "created_year, created_month, created_day"
         }
     )
 }}
@@ -17,7 +17,7 @@ WITH aggregate_data AS (
 SELECT 
     year(event_date) AS created_year,
     month(event_date) AS created_month,
-    week(event_date) AS created_week,
+    day(event_date) AS created_day,
     * 
     from aggregate_data
 

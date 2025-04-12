@@ -11,7 +11,7 @@ config:
   theme: neutral
 ---
 timeline
-    title Modern Data stack
+    title Data stack
     section Data orchestration
         SQL-centric : dbt (Data build tool)
     section Data lake
@@ -27,21 +27,20 @@ timeline
 ---
 config:
   theme: neo
-  look: neo
 ---
 sequenceDiagram
-  participant Alice as raw bucket<br>(gcs)
-  participant John as silver bucket<br>(gcs)
-  participant Bob as gold bucket<br>(gcs)
+  participant Alice as raw layer<br>(gcs)
+  participant John as silver layer<br>(gcs)
+  participant Bob as gold layer<br>(gcs)
 
   autonumber
   Alice ->> John: read:json, <br>convert to parquet
   loop Processing
-    John ->> John: dbt model:silver_gh_archives_daily.sql <br> materialized='external' <br> partition by year,month,week
+    John ->> John: silver_gh_archives_daily.sql <br> partition by year,month,week
   end
   Note right of John: Rational thoughts!
   John ->> Bob: read:parquet, <br>aggregate data, <br>write:parquet
   loop Processing
-    Bob ->> Bob: dbt model:gold_gh_archives_daily.sql <br>materialized='external' <br> partition by year,month,week
+    Bob ->> Bob: gold_gh_archives_daily.sql <br> partition by year,month,week
   end  
 ```
