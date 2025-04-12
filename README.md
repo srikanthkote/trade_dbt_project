@@ -40,19 +40,15 @@ sequenceDiagram
 ```mermaid
 ---
 config:
-  kanban:
-    ticketBaseUrl: https://org.atlassian.net/browse/#TICKET#
-  theme: default
+  theme: neutral
 ---
-kanban
-  Data orchestration
-    [dbt - Data build tool]
-  [Storage]
-    id6[GCS - Google storage]
-  id9[File layer]
-    id8[Parquet, JSON]
-  id10[Metadata layer]
-    id4[Hive metastore]@{ assigned: 'default from dbt' }
-  id11[Compute layer]
-    id5[DuckDB, Pandas]
+timeline
+    title Modern Data stack
+    section Data orchestration
+        SQL-centric : dbt (Data build tool)
+    section Data lake
+        Storage layer : Google cloud storage
+        File layer : Parquet, JSON
+        Metadata layer : Hive metastore 
+        Compute layer : In-process: DuckDB
 ```
