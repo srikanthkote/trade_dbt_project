@@ -1,24 +1,33 @@
-This is the place for me to experiment with modern data stack. 
-Currently I have used DBT to ingest and process files using medallion architecture with DuckDB as the compute layer.
-
 ### Using the starter project
 To run the project: dbt run, dbt test
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
+## Resources:
+- Learn about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
+- Learn about DuckDB [in the docs](https://duckdb.org/docs/stable/index)
 
-## What is DuckDB
-- An Embeddable & Portable Database
-- A Columnar OLAP Database
-- Interoperable SQL-Powered DataFrame
-- A Federated Query Engine
-- A Single-Node Compute Engine
+```mermaid
+---
+config:
+  theme: neutral
+---
+timeline
+    title Modern Data stack
+    section Data orchestration
+        SQL-centric : dbt (Data build tool)
+    section Data lake
+        Storage layer : Google cloud storage
+        File layer : Parquet
+        Metadata layer : Hive Metastore 
+        Compute layer : DuckDB : Trino (WIP)
+    section Data Warehouse
+        Cloud : Snowflake (WIP)
+```
 
 ```mermaid
 ---
 config:
   theme: neo
-  look: handDrawn
+  look: neo
 ---
 sequenceDiagram
   participant Alice as raw bucket<br>(gcs)
@@ -35,20 +44,4 @@ sequenceDiagram
   loop Processing
     Bob ->> Bob: dbt model:gold_gh_archives_daily.sql <br>materialized='external' <br> partition by year,month,week
   end  
-```
-
-```mermaid
----
-config:
-  theme: neutral
----
-timeline
-    title Modern Data stack
-    section Data orchestration
-        SQL-centric : dbt (Data build tool)
-    section Data lake
-        Storage layer : Google cloud storage
-        File layer : Parquet, JSON
-        Metadata layer : Hive metastore 
-        Compute layer : In-process: DuckDB
 ```
