@@ -15,6 +15,11 @@ To run the project: dbt run, dbt test
 - A Single-Node Compute Engine
 
 ```mermaid
+---
+config:
+  theme: neo
+  look: handDrawn
+---
 sequenceDiagram
   participant Alice as raw bucket<br>(gcs)
   participant John as silver bucket<br>(gcs)
@@ -30,4 +35,24 @@ sequenceDiagram
   loop Processing
     Bob ->> Bob: dbt model:gold_gh_archives_daily.sql <br>materialized='external' <br> partition by year,month,week
   end  
+```
+
+```mermaid
+---
+config:
+  kanban:
+    ticketBaseUrl: https://org.atlassian.net/browse/#TICKET#
+  theme: default
+---
+kanban
+  Data orchestration
+    [dbt - Data build tool]
+  [Storage]
+    id6[GCS - Google storage]
+  id9[File layer]
+    id8[Parquet, JSON]
+  id10[Metadata layer]
+    id4[Hive metastore]@{ assigned: 'default from dbt' }
+  id11[Compute layer]
+    id5[DuckDB, Pandas]
 ```
