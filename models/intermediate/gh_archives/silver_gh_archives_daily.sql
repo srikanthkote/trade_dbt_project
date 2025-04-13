@@ -1,10 +1,13 @@
+--        location="gs://gh_archives/silver",
+
 {{
     config(
         materialized='external',
-        location="gs://gh_archives/silver",
+        location="{{ var('storage_location') }}/silver",
         options={
-            "partition_by": "created_year, created_month, created_day"
-        }
+            "partition_by": "created_year, created_month, created_day",
+            "Overwrite": "true"
+        },
     )
 }}
 

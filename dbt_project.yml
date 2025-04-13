@@ -38,3 +38,7 @@ models:
     aggregate:
       gh_archives:
         +materialized: external
+
+vars:
+  # The `storage_location` variable will decide local vs cloud storage
+  storage_location: '~/Downloads/gh_archives/'
