@@ -4,3 +4,4 @@ data/
 dbt_packages/
 logs/
 dbt-env/
+.DS_Store
