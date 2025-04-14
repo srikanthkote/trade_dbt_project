@@ -3,18 +3,20 @@ version: 2
 sources:
   - name: external_source
     meta:
-      external_location: "{{ var('storage_location') }}/silver/created_year=*/created_month=*/created_day=*/*.parquet"
+      external_location: "{{ var('storage_location') }}/silver=*"
     schema: main
     database: trade-statistics
     tables:
       - name: silver_gh_archives_daily
         config:
-          external_location: "{{ var('storage_location') }}/silver/created_year=*/created_month=*/created_day=*/*.parquet"
+          external_location: "{{ var('storage_location') }}/silver=*"
           partitions:
             - name: created_year
               data_type: date
             - name: created_month
               data_type: date              
+            - name: created_day
+              data_type: date                            
           options:
             format: parquet
             enable_list_inference: true

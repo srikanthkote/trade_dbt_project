@@ -1,25 +1,26 @@
--- depends_on: {{ ref('silver_gh_archives_daily') }}
 {{
     config(
-        materialized='external',
-        location="gs://gh_archives/gold",
-        options={
-            "partition_by": "created_year, created_month, created_day"
-        }
+        materialized='table'
     )
 }}
 
-WITH aggregate_data AS (
-    SELECT type, repo_name, repo_url, count(*) as count, date_trunc('day', created_at) as event_date
-        FROM read_parquet({{ source('external_source', 'silver_gh_archives_daily') }}) GROUP BY ALL
+-- This section begins the aggregation of forks, pull requests, and push events
+with aggr_forks_pulls_push as (
+    -- The macro will add nulls for missing columns in each relation.
+    {{ dbt_utils.union_relations(
+        relations=[ref('silver_gh_archives_forks'), ref('silver_gh_archives_pullrequests'), ref('silver_gh_archives_pushevents')]
+    ) }}
 )
 
+-- The following select statement will create a table with the aggregated data
 SELECT 
-    year(event_date) AS created_year,
-    month(event_date) AS created_month,
-    day(event_date) AS created_day,
+    year(created_at) AS created_year,
+    month(created_at) AS created_month,
+    day(created_at) AS created_day,
     * 
-    from aggregate_data
+        from 
+    aggr_forks_pulls_push 
+    ORDER BY id
 
 
 
