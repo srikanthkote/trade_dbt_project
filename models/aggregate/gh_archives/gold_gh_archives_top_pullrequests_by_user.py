@@ -1,8 +1,5 @@
+# This model processes data from the "gold_gh_archives_daily" upstream model to identify the top 20 users
 def model(dbt, session):
-    """
-    This model processes data from the "gold_gh_archives_daily" upstream model to identify the top 20 users 
-    who have created the most pull request events.
-    """
     dbt.config(materialized="table")
     # DataFrame representing an upstream model
     upstream_model = dbt.ref("gold_gh_archives_daily").df()
