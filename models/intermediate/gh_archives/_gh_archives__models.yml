@@ -1,0 +1,6 @@
+models:
+  - name: silver_gh_archives_daily_deltaformat
+    config:
+      materialized: external
+      tags: [ 'python' ]
+      storage_location: '{{ var("storage_location") }}'

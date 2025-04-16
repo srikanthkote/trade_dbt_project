@@ -27,6 +27,7 @@ WITH bronze_data AS (
         payload, 
         public, 
         created_at, 
+        strftime(created_at, '%Y-%m-%d') as created_at_dt,
         org.id as org_id,
         org.login as org_login,
         org.gravatar_id as org_gravatar_id,
