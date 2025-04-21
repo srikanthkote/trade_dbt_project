@@ -17,8 +17,8 @@ timeline
     section Data lake
         Storage layer : Google cloud storage
         File layer : Parquet
-        Metadata layer : Hive Metastore 
-        Compute layer : DuckDB : Trino (WIP)
+        Metadata layer : Delta lake 
+        Compute layer : DuckDB
     section Data Warehouse
         Cloud : Snowflake (WIP)
 ```
@@ -34,13 +34,13 @@ sequenceDiagram
   participant Bob as gold layer<br>(gcs)
 
   autonumber
-  Alice ->> John: read:json, <br>convert to parquet
+  Alice ->> John: read:json, <br>convert to parquet, <br> convert to deltalake format 
   loop Processing
-    John ->> John: silver_gh_archives_daily.sql <br> partition by year,month,week
+    John ->> John: silver_gh_archives_dailyload.sql <br> silver_gh_archives_deltawrite.py <br> silver_gh_archives_deltascan.sql <br> silver_gh_archives_forks.py <br> silver_gh_archives_pullrequests.py <br> silver_gh_archives_pushevents.py
   end
-  Note right of John: Rational thoughts!
-  John ->> Bob: read:parquet, <br>aggregate data, <br>write:parquet
+  Note right of John: Now aggregate the data!
+  John ->> Bob: aggregate forks, PRs and push events
   loop Processing
-    Bob ->> Bob: gold_gh_archives_daily.sql <br> partition by year,month,week
+    Bob ->> Bob: gold_gh_archives_daily.sql <br> gold_gh_archives_top_pullrequests_by_repo.py <br> gold_gh_archives_top_pullrequests_by_user.py
   end  
 ```

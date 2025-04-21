@@ -1,5 +1,5 @@
 models:
-  - name: silver_gh_archives_daily_deltaformat
+  - name: silver_gh_archives_deltawrite
     config:
       materialized: external
       tags: [ 'python' ]
