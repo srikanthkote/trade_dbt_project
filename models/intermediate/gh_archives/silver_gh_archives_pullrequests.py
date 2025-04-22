@@ -7,5 +7,6 @@ def model(dbt, session):
     # DataFrame representing an upstream model
     upstream_model = dbt.ref("silver_gh_archives_deltascan").df()
     filtered_df = upstream_model.query('type == "PullRequestEvent"')
+    print("#PullRequestEvents[" + str(len(filtered_df)) + "]")
     filtered_df = filtered_df.filter(items=["id", "type", "actor_id", "actor_display_login", "repo_id", "repo_name", "payload_pull_request_id", "payload_pull_request_name", "payload_pull_request_number", "payload_pull_request_title", "payload_pull_request_user_id", "payload_pull_request_user_login", "created_at", "org_id", "org_login", "org_gravatar_id", "org_url", "org_avatar_url", "ingest_timestamp"])
     return filtered_df
