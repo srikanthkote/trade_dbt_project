@@ -36,7 +36,7 @@ sequenceDiagram
   autonumber
   Alice ->> John: read:json, <br>convert to parquet, <br> convert to deltalake format 
   loop Processing
-    John ->> John: silver_gh_archives_dailyload.sql <br> silver_gh_archives_deltawrite.py <br> silver_gh_archives_deltascan.sql <br> silver_gh_archives_forks.py <br> silver_gh_archives_pullrequests.py <br> silver_gh_archives_pushevents.py
+    John ->> John: silver_gh_archives_dailyload.sql <br> silver_gh_archives_deltawrite.py <br> silver_gh_archives_deltascan.sql <br> silver_gh_archives_deltascan_polars <br> silver_gh_archives_forks.py <br> silver_gh_archives_pullrequests.py <br> silver_gh_archives_pushevents.py
   end
   Note right of John: Now aggregate the data!
   John ->> Bob: aggregate forks, PRs and push events
