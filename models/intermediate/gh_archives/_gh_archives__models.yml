@@ -4,3 +4,7 @@ models:
       materialized: external
       tags: [ 'python' ]
       storage_location: '{{ var("storage_location") }}'
+  - name: silver_gh_archives_deltascan_polars
+    config:
+      tags: [ 'python' ]
+      storage_location: '{{ var("storage_location") }}'      
