@@ -3,13 +3,13 @@ version: 2
 sources:
   - name: external_source
     meta:
-      external_location: "{{ var('storage_location') }}/raw/2025-01-01-0.json"
+      external_location: "{{ var('storage_location') }}/raw/2025-01-01-*.json"
     schema: main
     database: trade-statistics
     tables:
       - name: bronze_gh_archives_daily
         config:
-          external_location: "{{ var('storage_location') }}/raw/2025-01-01-0.json"
+          external_location: "{{ var('storage_location') }}/raw/2025-01-01-*.json"
           partitions:
             - name: ds
               data_type: date
