@@ -41,6 +41,6 @@ sequenceDiagram
   Note right of John: Now aggregate the data!
   John ->> Bob: aggregate forks, PRs and push events
   loop Processing
-    Bob ->> Bob: gold_gh_archives_daily.sql <br> gold_gh_archives_top_pullrequests_by_repo.py <br> gold_gh_archives_top_pullrequests_by_user.py
+    Bob ->> Bob: gold_gh_archives_daily.sql <br> gold_gh_archives_top_pullrequests_by_repo.py <br> gold_gh_archives_top_pullrequests_by_user.py <br> gold_gh_archives_top_forks_by_repo.py
   end  
 ```
