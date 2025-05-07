@@ -18,7 +18,7 @@ timeline
         Storage layer : Google cloud storage
         File layer : Parquet
         Metadata layer : Delta lake 
-        Compute layer : DuckDB
+        Compute layer : DuckDB <br> Pandas <br> Polars
     section Data Warehouse
         Cloud : Snowflake (WIP)
 ```

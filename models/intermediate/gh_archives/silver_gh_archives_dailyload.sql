@@ -1,4 +1,3 @@
---        location="gs://gh_archives/silver",
 
 {{
     config(
