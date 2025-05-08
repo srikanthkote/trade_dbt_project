@@ -5,7 +5,7 @@
         location="{{ var('storage_location') }}/silver",
         options={
             "partition_by": "created_year, created_month, created_day",
-            "Overwrite": "true"
+            "Overwrite": "{{ var('overwrite') }}"
         },
     )
 }}

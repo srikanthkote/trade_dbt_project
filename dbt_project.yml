@@ -42,3 +42,4 @@ models:
 vars:
   # The `storage_location` variable will decide local vs cloud storage
   storage_location: 'gs://gh_archives'
+  overwrite: false
