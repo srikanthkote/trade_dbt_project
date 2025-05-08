@@ -12,8 +12,7 @@ def model(dbt, session):
 
     print("#ForkEvents[" + str(len(forksdf)) + "], #PullRequestEvents[" + str(len(prdf)) + "], #PushEvents[" + str(len(pushdf)) + "], #TOTAL[" + str(len(upstream_model)) + "]")
 
-    storage_location = str(dbt.config.get("storage_location")) + 'silver/delta_table'
-
+    storage_location = str(dbt.config.get("storage_location")) + '/silver/delta_table'
     write_deltalake(
         storage_location,
         upstream_model,

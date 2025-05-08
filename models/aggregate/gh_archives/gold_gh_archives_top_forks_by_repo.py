@@ -3,7 +3,6 @@ def model(dbt, session):
     dbt.config(materialized="table")
     # DataFrame representing an upstream model
     upstream_model = dbt.ref("gold_gh_archives_daily").df()
-    print("#TOTAL[" + str(len(upstream_model)) + "]")
 
     # filter out pull requests
     pull_requests_model = upstream_model.query("type == 'ForkEvent'")

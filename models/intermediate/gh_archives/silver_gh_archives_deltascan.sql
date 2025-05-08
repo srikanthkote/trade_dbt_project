@@ -37,6 +37,5 @@ SELECT  id,
         org_avatar_url,
         now() AS ingest_timestamp
     FROM 
-        delta_scan('/Users/srikanthkotekar/Downloads/gh_archives/silver/delta_table')
---     WHERE 
---         type = 'ForkEvent'
+        delta_scan('{{ var('storage_location') }}/silver/delta_table')
+
