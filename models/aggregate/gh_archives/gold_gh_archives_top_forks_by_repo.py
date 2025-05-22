@@ -1,4 +1,4 @@
-import time
+from time import perf_counter_ns
 
 # This model processes data from the "gold_gh_archives_daily" upstream model to identify the top 20 repos with highest PRs
 def model(dbt, session):
@@ -7,7 +7,7 @@ def model(dbt, session):
     # DataFrame representing an upstream model
     upstream_model = dbt.ref("gold_gh_archives_daily").df()
 
-    start = time.process_time()
+    t1_start = perf_counter_ns()
 
     # filter out pull requests
     pull_requests_model = upstream_model.query("type == 'ForkEvent'")
@@ -17,8 +17,8 @@ def model(dbt, session):
     
     pull_requests_model = pull_requests_model.reset_index()[["type", "repo_id", "repo_name", "counts"]]
     
-    end = time.process_time()
-    elapsed = round((end - start) * 1000, 3)
+    t1_stop = perf_counter_ns()
+    elapsed = round((t1_stop - t1_start)/1000000, 3)
     print(f"{model} - {elapsed}ms")
 
     return pull_requests_model
