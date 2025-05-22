@@ -6,7 +6,7 @@ from time import perf_counter_ns
 def model(dbt, session):
 
     queries = [
-        "select * from silver_gh_archives_deltascan_polars where actor_id = '49699333' and type = 'PullRequestEvent' and created_at between '2025-01-01 00:00:00.000' and '2025-01-01 01:00:00.000'",
+        "select actor_id, type, created_at, repo_id, repo_name from silver_gh_archives_deltascan_polars where actor_id = '49699333' and type = 'PullRequestEvent' and created_at between '2025-01-01 00:00:00.000' and '2025-01-01 01:00:00.000'",
     ]
 
     # DataFrame representing an upstream model
