@@ -6,6 +6,7 @@ from time import perf_counter_ns
 def model(dbt, session):
 
     queries = [
+        "SUMMARIZE silver_gh_archives_deltascan_polars",
         "select count(1) from silver_gh_archives_deltascan_polars",
         "select actor_id, type, created_at, repo_id, repo_name from silver_gh_archives_deltascan_polars where actor_id = '49699333' and type = 'PullRequestEvent' and created_at between '2025-01-01 00:00:00.000' and '2025-01-01 01:00:00.000'",
         "select a.actor_id, a.type, a.created_at, a.repo_id, a.repo_name from silver_gh_archives_pullrequests a, silver_gh_archives_forks b	where a.actor_id = b.actor_id and a.actor_id = '163356328' and a.created_at between '2025-01-01 00:00:00.000' and '2025-01-02 01:00:00.000'",
