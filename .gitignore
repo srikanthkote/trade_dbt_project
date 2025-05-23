@@ -5,3 +5,5 @@ dbt_packages/
 logs/
 dbt-env/
 .DS_Store
+.DS_Store
+silver_gh_archives_deltawrite.parquet
