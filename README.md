@@ -19,6 +19,8 @@ timeline
         File layer : Parquet
         Metadata layer : Delta lake 
         Compute layer :  DuckDB <br> Pandas <br> Polars <br> (Inprocess) : Trino <br> (Distributed)
+    section BI & Data Apps
+        Code-first Data Apps : Streamlit        
     section Data Warehouse
         Cloud : Snowflake (WIP)
 ```
