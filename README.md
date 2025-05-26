@@ -18,11 +18,9 @@ timeline
         Storage layer : Google cloud storage
         File layer : Parquet
         Metadata layer : Delta lake 
-        Compute layer :  DuckDB <br> Pandas <br> Polars <br> (Inprocess) : Trino <br> (Distributed)
+        Compute layer :  DuckDB <br> Pandas <br> Polars <br> (Inprocess) 
     section BI & Data Apps
-        Code-first Data Apps : Streamlit        
-    section Data Warehouse
-        Cloud : Snowflake (WIP)
+        Code-first Data Apps : Streamlit <br> Plotly       
 ```
 
 ```mermaid
