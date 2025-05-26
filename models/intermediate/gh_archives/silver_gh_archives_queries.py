@@ -1,5 +1,6 @@
 import duckdb
 from time import perf_counter_ns
+from tabulate import tabulate
 
 
 # model that runs many queries in order to check latencies
@@ -55,6 +56,10 @@ def model(dbt, session):
     con.sql("CREATE INDEX idx_fr_repo_id ON silver_gh_archives_forks(repo_id);")
     con.sql("CREATE INDEX idx_fr_repo_name ON silver_gh_archives_forks(repo_name);")
 
+    table_data = [
+        ["Query", "Latency"],
+    ]
+
     for query in queries:
         t1_start = perf_counter_ns()
 
@@ -62,10 +67,7 @@ def model(dbt, session):
         result = con.sql(query).df()
         t1_stop = perf_counter_ns()
         elapsed = round((t1_stop - t1_start) / 1000000, 3)
-        print(f"{query} - {elapsed}ms")
-
-        # Print the result
-        # print(result)
+        table_data.append([query, elapsed])
 
     # explicitly drop the indices to support regeneration
     con.sql("DROP INDEX idx_actor_id")
@@ -88,5 +90,7 @@ def model(dbt, session):
 
     # explicitly close the connection
     con.close()
+
+    print(tabulate(table_data, headers="firstrow", tablefmt="grid"))
 
     return result

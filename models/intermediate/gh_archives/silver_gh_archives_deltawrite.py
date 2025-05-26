@@ -1,6 +1,7 @@
 from deltalake import DeltaTable, write_deltalake
 from datetime import datetime
 from dateutil import parser
+from tabulate import tabulate
 
 
 def model(dbt, session):
@@ -11,17 +12,19 @@ def model(dbt, session):
     prdf = upstream_model.query('type == "PullRequestEvent"')
     pushdf = upstream_model.query('type == "PushEvent"')
 
-    print(
-        "#ForkEvents["
-        + str(len(forksdf))
-        + "], #PullRequestEvents["
-        + str(len(prdf))
-        + "], #PushEvents["
-        + str(len(pushdf))
-        + "], #TOTAL["
-        + str(len(upstream_model))
-        + "]"
-    )
+    table_data = [
+        [
+            "#ForkEvents",
+            len(forksdf),
+            "#PullRequestEvents",
+            len(prdf),
+            "PushEvents",
+            len(pushdf),
+            "TOTAL",
+            len(upstream_model),
+        ],
+    ]
+    print(tabulate(table_data, tablefmt="grid"))
 
     storage_location = str(dbt.config.get("storage_location")) + "/silver/delta_table"
     write_deltalake(

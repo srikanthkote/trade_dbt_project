@@ -8,7 +8,7 @@ def model(dbt, session):
     # DataFrame representing an upstream model
     upstream_model = dbt.ref("silver_gh_archives_deltascan_polars").df()
     filtered_df = upstream_model.query('type == "PushEvent"')
-    print("#PushEvents[" + str(len(filtered_df)) + "]")
+
     filtered_df = filtered_df.filter(
         items=[
             "id",

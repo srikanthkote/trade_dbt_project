@@ -1,7 +1,6 @@
 from deltalake import DeltaTable, write_deltalake
 from datetime import datetime
 from dateutil import parser
-from time import perf_counter_ns
 
 
 def model(dbt, session):
@@ -10,10 +9,8 @@ def model(dbt, session):
     # DataFrame representing an upstream model
     upstream_model = dbt.ref("silver_gh_archives_deltascan_polars").df()
 
-    t1_start = perf_counter_ns()
-
     filtered_df = upstream_model.query('type == "PullRequestEvent"')
-    print("#PullRequestEvents[" + str(len(filtered_df)) + "]")
+
     filtered_df = filtered_df.filter(
         items=[
             "id",
@@ -37,9 +34,5 @@ def model(dbt, session):
             "ingest_timestamp",
         ]
     )
-
-    t1_stop = perf_counter_ns()
-    elapsed = round((t1_stop - t1_start) / 1000000, 3)
-    print(f"{model} - {elapsed}ms")
 
     return filtered_df
