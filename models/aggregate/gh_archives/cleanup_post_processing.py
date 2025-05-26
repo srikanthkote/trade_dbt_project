@@ -1,12 +1,13 @@
 import duckdb
 
+
 def model(dbt, session):
     dbt.config(materialized="table")
     # DataFrame representing an upstream model
     upstream_model = dbt.ref("gold_gh_archives_top_pullrequests_by_user").df()
 
     queries = [
-        "DROP TABLE IF EXISTS gold_gh_archives_daily",        
+        "DROP TABLE IF EXISTS gold_gh_archives_daily",
         "DROP TABLE IF EXISTS gold_gh_archives_top_forks_by_repo",
         "DROP TABLE IF EXISTS gold_gh_archives_top_pullrequests_by_repo",
         "DROP TABLE IF EXISTS gold_gh_archives_top_pullrequests_by_user",
@@ -22,10 +23,12 @@ def model(dbt, session):
         "DROP TABLE IF EXISTS silver_gh_archives_queries",
     ]
 
-    con = duckdb.connect("/Users/srikanthkotekar/code/analytics-workspace/trade-statistics.duckdb")
+    con = duckdb.connect(
+        "/Users/srikanthkotekar/code/analytics-workspace/trade-statistics.duckdb"
+    )
 
     for query in queries:
         # Execute the query
-        con.sql(query)     
+        con.sql(query)
 
     return upstream_model
