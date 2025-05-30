@@ -1,4 +1,5 @@
 import duckdb
+import polars as pl
 from time import perf_counter_ns
 from tabulate import tabulate
 
@@ -37,7 +38,6 @@ def model(dbt, session):
     con.sql(
         "CREATE INDEX idx_repo_name ON silver_gh_archives_deltascan_polars(repo_name);"
     )
-
     con.sql(
         "CREATE INDEX idx_pr_actor_id ON silver_gh_archives_pullrequests(actor_id);"
     )
@@ -49,7 +49,6 @@ def model(dbt, session):
     con.sql(
         "CREATE INDEX idx_pr_repo_name ON silver_gh_archives_pullrequests(repo_name);"
     )
-
     con.sql("CREATE INDEX idx_fr_actor_id ON silver_gh_archives_forks(actor_id);")
     con.sql("CREATE INDEX idx_fr_type ON silver_gh_archives_forks(type);")
     con.sql("CREATE INDEX idx_fr_created_at ON silver_gh_archives_forks(created_at);")
@@ -57,7 +56,7 @@ def model(dbt, session):
     con.sql("CREATE INDEX idx_fr_repo_name ON silver_gh_archives_forks(repo_name);")
 
     table_data = [
-        ["Query", "Latency"],
+        ["Query", "Latency(ms)"],
     ]
 
     for query in queries:
@@ -75,13 +74,11 @@ def model(dbt, session):
     con.sql("DROP INDEX idx_created_at")
     con.sql("DROP INDEX idx_repo_id")
     con.sql("DROP INDEX idx_repo_name")
-
     con.sql("DROP INDEX idx_pr_actor_id")
     con.sql("DROP INDEX idx_pr_type")
     con.sql("DROP INDEX idx_pr_created_at")
     con.sql("DROP INDEX idx_pr_repo_id")
     con.sql("DROP INDEX idx_pr_repo_name")
-
     con.sql("DROP INDEX idx_fr_actor_id")
     con.sql("DROP INDEX idx_fr_type")
     con.sql("DROP INDEX idx_fr_created_at")
@@ -91,6 +88,29 @@ def model(dbt, session):
     # explicitly close the connection
     con.close()
 
-    print(tabulate(table_data, headers="firstrow", tablefmt="grid"))
+    # Querying Delta lake with Polars
+    storage_location = "/Users/srikanthkotekar/Downloads/gh_archives/silver/delta_table"
+    t1_start = perf_counter_ns()
+    # Simple DataFrame with Polars filter
+    df = pl.read_delta(storage_location).filter(
+        (
+            pl.col("actor_id") == "49699333",
+            pl.col("created_at_dt") > "2025-01-01 00:00:00.000",
+            pl.col("created_at_dt") < "2025-01-02 01:00:00.000",
+        )
+    )
+    t1_stop = perf_counter_ns()
+    elapsed = round((t1_stop - t1_start) / 1000000, 3)
+    table_data.append(["Running above query with Delta lake and Polars", elapsed])
+
+    print(
+        tabulate(
+            table_data,
+            headers="firstrow",
+            tablefmt="grid",
+            numalign="right",
+            maxcolwidths=[80, None],
+        )
+    )
 
     return result

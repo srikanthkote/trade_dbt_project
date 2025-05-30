@@ -18,9 +18,9 @@ def model(dbt, session):
             len(forksdf),
             "#PullRequestEvents",
             len(prdf),
-            "PushEvents",
+            "#PushEvents",
             len(pushdf),
-            "TOTAL",
+            "#TOTAL",
             len(upstream_model),
         ],
     ]
