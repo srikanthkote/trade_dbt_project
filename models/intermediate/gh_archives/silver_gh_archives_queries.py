@@ -92,7 +92,11 @@ def model(dbt, session):
     storage_location = "/Users/srikanthkotekar/Downloads/gh_archives/silver/delta_table"
     t1_start = perf_counter_ns()
     # Simple DataFrame with Polars filter
-    df = pl.read_delta(storage_location).filter(
+    df = pl.read_delta(
+        storage_location,
+        use_pyarrow=True,
+        pyarrow_options={"partitions": [("created_at_dt", "=", "true")]},
+    ).filter(
         (
             pl.col("actor_id") == "49699333",
             pl.col("created_at_dt") > "2025-01-01 00:00:00.000",
